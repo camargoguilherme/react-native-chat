@@ -1,31 +1,26 @@
 import React, {Component} from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, ScrollView, AsyncStorage } from 'react-native';
 import ButtonUser from '../objects/ButtonUser';
-import styles from '../styles';
+import styles from './styles';
+import socket from '../../services/socket';
 
 class Users extends Component<> {
   constructor(props){
     super(props);
     this.state = { 
       users: [
-        {
-          username: 'teste',
-          name: 'Guilherme Camargo'
-        }
+        
       ]
     }
   }
-  componentWillMount() {
-    let user = {
-      username: 'teste',
-      name: 'Guilherme Camargo'
-    }
-    socket.emit("join", user);
+  async componentWillMount() {
+    let me = JSON.parse( await AsyncStorage.getItem('me'));
+    socket.emit('connectRoom', me);
+    socket.on('join', (user) =>{
+      const users = user.filter( u => u._id != me._id)
+      
+      this.setState({users})
 
-    socket.on(`join`, (users) =>{
-      this.setState({
-        users
-      })
     });
     
   }
