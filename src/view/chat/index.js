@@ -9,7 +9,7 @@
 import React, {Component} from 'react';
 import { Alert } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import socket from '../../services';
+import socket from '../../services/socket';
 
 class Chat extends Component<> {
   constructor(props){
