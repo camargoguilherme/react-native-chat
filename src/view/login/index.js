@@ -21,11 +21,11 @@ class Login extends Component<> {
 
     const response =  await LOGIN(username, password);
     if(response.auth){
-      AsyncStorage.setItem('me', JSON.stringify(response))
-      return true
+      await AsyncStorage.setItem('me', JSON.stringify(response))
+    }else{
+      alert(JSON.stringify(response))
     }
-    alert(JSON.stringify(response))
-    return false
+    return response.auth
   }
 
   render() {
