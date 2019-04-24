@@ -11,8 +11,8 @@ import Chat from '../chat';
 const Route = (signed) =>{
   // Create the navigator
   const Home = createStackNavigator({
-    Users: { screen: Users },
-    Chat: { screen: Chat }
+    Users,
+    Chat
   },{
     headerMode: 'screen',
     mode: 'card',
@@ -21,10 +21,10 @@ const Route = (signed) =>{
   
   // Create the switchNavigator
   const switchNavigator = createSwitchNavigator({
-    Login: { screen: Login },
-    SignUp: { screen: SignUp },
-    Forgot: { screen: Forgot},
-    Home: { screen: Home }
+    Login,
+    SignUp,
+    Forgot,
+    Home
   },{
     headerMode: 'screen',
     mode: 'card',

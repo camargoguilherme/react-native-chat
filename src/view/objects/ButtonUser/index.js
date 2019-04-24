@@ -7,7 +7,7 @@ const ButtonUser = (user, navigate) =>{
     <TouchableOpacity key={user.username} onPress={ () =>{navigate("Chat", {user})}}>
       <View style={styles.containerUser}>
         <View style={styles.circle}>
-          <Text>{ user.name.split(' ')[0][0] + user.name.split(' ')[1][0] }</Text>
+          <Text>{ user.name.split(' ')[0][0] /*+ user.name.split(' ')[1][0] */}</Text>
         </View>
         <View style={styles.infoUser}>
           <Text>{ user.name }</Text>

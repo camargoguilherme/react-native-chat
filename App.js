@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import Route from './src/view/route';
+import { AUTH } from './src/services/api';
 
 export default class App extends Component<> {
   state = {
@@ -17,9 +18,8 @@ export default class App extends Component<> {
 
   async componentDidMount() {
     const user = JSON.parse(await AsyncStorage.getItem('me', null));
-    if(user){
-      this.setState({ signed: true })
-    }
+    const signed = await AUTH(user)
+    this.setState({ signed })
   }
 
   render() {

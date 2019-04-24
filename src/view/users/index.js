@@ -13,9 +13,9 @@ import {
 import ButtonUser from '../objects/ButtonUser';
 import styles from './styles';
 import socket from '../../services/socket';
-import api from '../../services/api';
+import { FINDALL } from '../../services/api';
 
-class Users extends Component < > {
+class Users extends Component <> {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,22 +24,23 @@ class Users extends Component < > {
       ]
     }
   }
-  async componentWillMount() {
+  async componentDidMount() {
     let me = JSON.parse(await AsyncStorage.getItem('me'));
 
-    const users = await api.get({
-      url: '/user',
-      headers: {
-        'x-access-token': me.token
-
-      }
-    })
-    ale
+    const users = await FINDALL(me)
+    
     this.setState({
       users
     })
 
     socket.emit('connectRoom', me);
+    socket.on('disjoin', (user) => {
+      const users = user.filter(u => u._id != me._id)
+      this.setState({
+        users
+      })
+
+    });
     socket.on('join', (user) => {
       const users = user.filter(u => u._id != me._id)
       this.setState({
@@ -63,18 +64,14 @@ class Users extends Component < > {
     let {
       users
     } = this.state
-    return ( <
-      View style = {
-        styles.container
-      } >
-      <
-      ScrollView > {
-        users && users.map((user) => {
-          return new ButtonUser(user, navigate)
-        })
-      } <
-      /ScrollView> <
-      /View>
+    return ( 
+      <View style = {styles.container } >
+        <ScrollView > 
+        {
+          users && users.map((user) => { return new ButtonUser(user, navigate) })
+        } 
+        </ScrollView> 
+      </View>
     );
   }
 }
